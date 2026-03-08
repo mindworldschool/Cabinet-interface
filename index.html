@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Mix</title>
+
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body class="game-screen">
+    <header class="app-header">
+      <div class="app-header__brand">
+        <img
+          src="./assets/logo.png"
+          alt="Color Mix logo"
+          class="app-header__logo"
+        />
+
+        <div class="app-header__titles">
+          <h1 id="appTitle" class="app-header__title">
+            <span class="title-main">Color Mix</span>
+            <span class="title-sub">Тренування когнітивної гнучкості</span>
+          </h1>
+          <h2 id="appTagline" class="app-header__tagline">
+            Тренажер Ефекту Струпа
+          </h2>
+        </div>
+      </div>
+
+      <div id="languageSwitcher" class="app-header__languages"></div>
+
+      <div id="hwModeBadge" style="display:none;background:linear-gradient(135deg,#ff7c00,#ff9a2b);color:white;padding:6px 16px;border-radius:20px;font-weight:700;font-size:14px;white-space:nowrap;">📝 Домашнє завдання</div>
+    </header>
+
+    <main id="app" class="app-main" role="main"></main>
+
+    <footer id="appFooter" class="app-footer">MindWorld School © 2026</footer>
+
+    <script>
+      (function () {
+        const SUPPORTED_LANGS = ["ua", "en", "ru", "es"];
+        const params = new URLSearchParams(window.location.search);
+        let lang = params.get("lang");
+
+        // 1. Проверяем параметр lang в URL
+        if (!SUPPORTED_LANGS.includes(lang)) {
+          // 2. Если нет — пробуем определить по referrer
+          const referrer = document.referrer;
+          if (referrer) {
+            if (referrer.includes("/en/")) {
+              lang = "en";
+            } else if (referrer.includes("/ru/")) {
+              lang = "ru";
+            } else if (referrer.includes("/es/")) {
+              lang = "es";
+            } else if (referrer.includes("mindworldschool.com")) {
+              // Украинская версия на основном домене без префикса
+              lang = "ua";
+            }
+          }
+
+          // 3. Если не определили — пробуем взять из localStorage
+          if (!SUPPORTED_LANGS.includes(lang)) {
+            const saved = localStorage.getItem("mws_lang");
+            if (SUPPORTED_LANGS.includes(saved)) {
+              lang = saved;
+            } else {
+              // 4. Язык по умолчанию
+              lang = "ua";
+            }
+          }
+        }
+
+        // 5. Сохраняем язык
+        localStorage.setItem("mws_lang", lang);
+
+        // 6. Передаём язык в main.js
+        window.APP_LANG = lang;
+
+        // 7. Обновляем lang в <html>
+        const langMap = { ua: "uk", en: "en", ru: "ru", es: "es" };
+        document.documentElement.lang = langMap[lang] || "uk";
+      })();
+    </script>
+
+    <script type="module" src="./app.js"></script>
+
+<button id="saveAsHomework" style="display:none;">💾 Зберегти як ДЗ</button>
+<style>
+#saveAsHomework {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff7c00 0%, #ff9d40 100%);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 124, 0, 0.3);
+    z-index: 10000;
+    font-size: 16px;
+    font-family: 'Nunito', Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+#saveAsHomework:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 124, 0, 0.5);
+}
+#saveAsHomework:active {
+    transform: translateY(0);
+}
+</style>
+<script type="module">
+import { state } from './core/state.js';
+import { updateSettings, setRoute } from './core/state.js';
+import { route } from './app.js';
+
+(function() {
+    const params = new URLSearchParams(window.location.search);
+
+    // ============================================================
+    // РЕЖИМ ДЗ: якщо відкрито з параметром mode=homework
+    // Застосовуємо налаштування з URL і пропускаємо екран настройок
+    // ВИНЯТОК: якщо відкрито як popup (window.opener) — показуємо налаштування
+    //          щоб вчитель міг переналаштувати ДЗ через шестерёнку
+    // ============================================================
+    // hwId присутній лише у student-режимі (посилання на конкретне ДЗ).
+    // Якщо hwId є — це учень, навіть якщо window.opener є (кабінет відкрив popup).
+    const isStudentMode = params.get('mode') === 'homework' && params.has('hwId');
+    const isReconfigureMode = params.get('mode') === 'homework' && !!window.opener && !isStudentMode;
+
+    if (params.get('mode') === 'homework') {
+        // Показуємо бейдж ДЗ тільки якщо не в режимі переналаштування
+        if (!isReconfigureMode) {
+            const badge = document.getElementById('hwModeBadge');
+            if (badge) badge.style.display = 'block';
+        }
+
+        // Чекаємо поки додаток ініціалізується
+        const waitForApp = setInterval(() => {
+            if (state.route) {
+                clearInterval(waitForApp);
+                applyHomeworkSettings(params, isReconfigureMode);
+            }
+        }, 100);
+
+        // Таймаут безпеки - 5 секунд
+        setTimeout(() => clearInterval(waitForApp), 5000);
+    }
+
+    // Якщо відкрито через popup для налаштування (from=lms-setup або reconfigure)
+    // — завантажуємо параметри з URL щоб форма була попередньо заповнена
+    if (!params.get('mode') && params.get('from') === 'lms-setup') {
+        const waitForApp = setInterval(() => {
+            if (state.route) {
+                clearInterval(waitForApp);
+                applyHomeworkSettings(params, true); // true = залишитись на settings
+            }
+        }, 100);
+        setTimeout(() => clearInterval(waitForApp), 5000);
+    }
+
+    function applyHomeworkSettings(params, stayOnSettings) {
+        const settings = {};
+
+        // Настройки Струпа
+        if (params.has('colorsCount')) settings.colorsCount = params.get('colorsCount');
+        if (params.has('gameMode')) settings.gameMode = params.get('gameMode');
+
+        // Кількість прикладів
+        if (params.has('examples')) {
+            settings.examples = {
+                count: parseInt(params.get('examples')) || 10,
+                infinite: params.get('examplesInf') === '1'
+            };
+        }
+
+        // Застосовуємо налаштування
+        updateSettings(settings);
+
+        if (stayOnSettings) {
+            // Залишаємось на екрані налаштувань щоб вчитель міг переналаштувати
+            route('settings');
+        } else {
+            // Невелика затримка щоб state оновився, потім — одразу на підтвердження
+            setTimeout(() => {
+                route('confirmation');
+            }, 200);
+        }
+    }
+
+   // Показуємо кнопку якщо відкрито як popup (window.opener існує):
+   // — при створенні ДЗ: from=lms-setup
+   // — при переналаштуванні через шестерёнку: mode=homework + opener
+   // — або просто будь-який popup з LMS (opener без параметрів)
+const _params = new URLSearchParams(window.location.search);
+// Показуємо кнопку тільки вчителю (не учню з hwId)
+if (window.opener && !_params.has('hwId')) {
+    document.getElementById('saveAsHomework').style.display = 'block';
+}
+
+    document.getElementById('saveAsHomework').addEventListener('click', function() {
+        if (!window.opener) {
+            alert('⚠️ Ця кнопка працює тільки при створенні ДЗ з LMS кабінету.');
+            return;
+        }
+
+        const s = state.settings;
+
+        // Формуємо URL з параметрами
+        const baseUrl = window.location.origin + window.location.pathname;
+        const urlParams = new URLSearchParams();
+
+        urlParams.set('mode', 'homework');
+        urlParams.set('colorsCount', s.colorsCount || '4');
+        urlParams.set('gameMode', s.gameMode || 'classic');
+        urlParams.set('examples', String(s.examples?.count || 10));
+        if (s.examples?.infinite) urlParams.set('examplesInf', '1');
+
+        const fullUrl = baseUrl + '?' + urlParams.toString();
+
+        // Формуємо опис налаштувань для відображення в кабінеті
+        const settingsDescription = {
+            'Кількість кольорів': s.colorsCount || '4',
+            'Складність': s.gameMode === 'hardcore' ? 'Режим пастки' : 'Простий режим',
+            'Кількість раундів': s.examples?.infinite ? '∞' : String(s.examples?.count || 10)
+        };
+
+        // Відправляємо в LMS
+        window.opener.postMessage({
+            type: 'TRAINER_SETTINGS_SAVED',
+            url: fullUrl,
+            trainer: 'Color Mix',
+            settings: settingsDescription
+        }, '*');
+
+        alert('✅ Налаштування збережено!\n\nЗакрийте це вікно та заповніть решту полів ДЗ.');
+    });
+})();
+</script>
+  </body>
+</html>

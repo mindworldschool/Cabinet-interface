@@ -63,7 +63,9 @@ export const dictionaries = {
     "game": {
       "title": "Math Training",
       "description": "Fill the empty windows!",
-      "cta": "Finish session"
+      "cta": "Finish session",
+      "task": "Task:",
+      "next": "Next"
     },
     "results": {
       "title": "Session summary",
@@ -144,7 +146,9 @@ export const dictionaries = {
     "game": {
       "title": "Entrenamiento Matemático",
       "description": "¡Llena las ventanas vacías!",
-      "cta": "Finalizar sesión"
+      "cta": "Finalizar sesión",
+      "task": "Tarea:",
+      "next": "Siguiente"
     },
     "results": {
       "title": "Resultados de la sesión",
@@ -226,6 +230,7 @@ export const dictionaries = {
       "title": "Тренировка",
       "description": "Заполни пустые окошки!",
       "cta": "Завершить сессию",
+      "task": "Задание:",
       "next": "Дальше"
     },
     "results": {
@@ -308,6 +313,7 @@ export const dictionaries = {
       "title": "Тренування",
       "description": "Заповни порожні віконця!",
       "cta": "Завершити сесію",
+      "task": "Завдання:",
       "next": "Далі"
     },
     "results": {

@@ -23,7 +23,7 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
   const gameWrapper = document.createElement('div');
   gameWrapper.className = 'math-game-wrapper';
-  gameWrapper.style.cssText = 'display: flex; flex-direction: column; width: 100%; height: 100%; max-width: 1000px; margin: 0 auto; padding-bottom: 220px;';
+  gameWrapper.style.cssText = 'display: flex; flex-direction: column; width: 100%; height: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 20px;';
 
   // Header
   const header = document.createElement('div');
@@ -42,49 +42,32 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   header.append(progressText, exitBtn);
   gameWrapper.appendChild(header);
 
-  // Content Area
-  const contentArea = document.createElement('div');
-  contentArea.style.cssText = 'flex: 1; display: flex; justify-content: center; align-items: center; overflow-y: auto; padding: 20px;';
-  gameWrapper.appendChild(contentArea);
+  // Main interactive area (Flex container: Numpad on left, House on right)
+  const mainArea = document.createElement('div');
+  mainArea.className = 'math-main-area';
+  gameWrapper.appendChild(mainArea);
 
-  // Custom Numpad
+  // Custom Numpad (Left Panel)
   const numpadPanel = document.createElement('div');
-  numpadPanel.style.cssText = 'position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); padding: 15px 10px 20px; z-index: 100; display: flex; justify-content: center;';
+  numpadPanel.className = 'math-numpad-panel';
 
   const numpadGrid = document.createElement('div');
-  numpadGrid.style.cssText = 'display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 600px;';
+  numpadGrid.className = 'math-numpad-grid';
 
   for (let i = 0; i <= 10; i++) {
     const btn = document.createElement('button');
+    btn.className = 'math-numpad-btn';
     btn.textContent = i;
-    btn.style.cssText = `
-      width: clamp(50px, 12vw, 70px);
-      height: clamp(50px, 12vw, 70px);
-      border-radius: 12px;
-      border: none;
-      background: var(--color-primary);
-      color: #fff;
-      font-size: clamp(1.2rem, 4vw, 1.8rem);
-      font-weight: 700;
-      font-family: "Nunito", sans-serif;
-      cursor: pointer;
-      box-shadow: 0 4px 0 var(--color-primary-dark);
-      transition: transform 0.1s, box-shadow 0.1s;
-      flex-shrink: 0;
-    `;
 
     btn.onmousedown = (e) => {
       e.preventDefault(); // Prevent losing focus on inputs
-      btn.style.transform = 'translateY(4px)';
-      btn.style.boxShadow = '0 0 0 var(--color-primary-dark)';
+      btn.classList.add('pressed');
     };
     btn.onmouseup = () => {
-      btn.style.transform = 'translateY(0)';
-      btn.style.boxShadow = '0 4px 0 var(--color-primary-dark)';
+      btn.classList.remove('pressed');
     };
     btn.onmouseleave = () => {
-      btn.style.transform = 'translateY(0)';
-      btn.style.boxShadow = '0 4px 0 var(--color-primary-dark)';
+      btn.classList.remove('pressed');
     };
     btn.onclick = () => handleNumpadInput(i);
 
@@ -92,20 +75,95 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   }
 
   numpadPanel.appendChild(numpadGrid);
-  gameWrapper.appendChild(numpadPanel);
+  mainArea.appendChild(numpadPanel);
+
+  // Content Area (Right Panel: House and Examples)
+  const contentArea = document.createElement('div');
+  contentArea.className = 'math-content-area';
+  mainArea.appendChild(contentArea);
 
   container.appendChild(gameWrapper);
 
-  // Styling for House and Examples
+  // Styling for Layout, House and Examples
   const style = document.createElement('style');
   style.textContent = `
+    .math-main-area {
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      width: 100%;
+      gap: 40px;
+      align-items: flex-start;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .math-numpad-panel {
+      flex: 0 0 auto;
+      background: #fff;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .math-numpad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      justify-items: center;
+    }
+
+    /* 10 is centered in the last row */
+    .math-numpad-btn:last-child {
+      grid-column: 2;
+    }
+
+    .math-numpad-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      border: none;
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-family: "Nunito", sans-serif;
+      cursor: pointer;
+      box-shadow: 0 6px 0 var(--color-primary-dark);
+      transition: transform 0.1s, box-shadow 0.1s;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .math-numpad-btn.pressed {
+      transform: translateY(6px);
+      box-shadow: 0 0 0 var(--color-primary-dark);
+    }
+
+    .math-content-area {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #fdf8f3;
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.05);
+      min-height: 400px;
+    }
+
     .math-task-container {
       display: flex;
+      flex-direction: column;
       gap: 40px;
       width: 100%;
-      justify-content: center;
-      align-items: flex-start;
-      flex-wrap: wrap;
+      align-items: center;
     }
     .math-house {
       display: flex;
@@ -219,15 +277,61 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
       margin-top: 30px;
     }
 
-    @media (max-width: 768px) {
-      .math-task-container {
-        flex-direction: column;
+    @media (max-width: 900px) {
+      .math-main-area {
+        flex-direction: column-reverse;
         align-items: center;
+        padding: 10px;
+        gap: 20px;
       }
+
+      .math-numpad-panel {
+        width: 100%;
+        max-width: 600px;
+        padding: 15px;
+      }
+
+      .math-numpad-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .math-numpad-btn:last-child {
+        grid-column: auto;
+      }
+
+      .math-numpad-btn {
+        width: clamp(50px, 12vw, 70px);
+        height: clamp(50px, 12vw, 70px);
+        font-size: clamp(1.2rem, 4vw, 1.8rem);
+      }
+
+      .math-content-area {
+        width: 100%;
+        padding: 20px 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
       .house-roof {
-        border-left-width: 140px;
-        border-right-width: 140px;
-        border-bottom-width: 120px;
+        border-left-width: 120px;
+        border-right-width: 120px;
+        border-bottom-width: 100px;
+      }
+      .house-target {
+        top: 30px;
+        left: -15px;
+        font-size: 2rem;
+      }
+      .math-input {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+      .math-examples {
+        font-size: 1.5rem;
       }
     }
   `;
@@ -237,9 +341,9 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
   function updateProgress() {
     if (isInfinite) {
-      progressText.textContent = `Завдання: ${currentTaskIndex + 1}`;
+      progressText.textContent = `${t('game.task') || 'Task:'} ${currentTaskIndex + 1}`;
     } else {
-      progressText.textContent = `Завдання: ${currentTaskIndex + 1} / ${taskCount}`;
+      progressText.textContent = `${t('game.task') || 'Task:'} ${currentTaskIndex + 1} / ${taskCount}`;
     }
   }
 
@@ -322,7 +426,7 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
     const nextBtn = document.createElement('button');
     nextBtn.className = 'btn btn--primary';
-    nextBtn.textContent = t('game.next') || 'Далі';
+    nextBtn.textContent = t('game.next') || 'Next';
     nextBtn.style.fontSize = '1.2rem';
     nextBtn.style.padding = '15px 40px';
     nextBtn.onclick = handleNextTask;

@@ -25,9 +25,10 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   gameWrapper.className = 'math-game-wrapper';
   gameWrapper.style.cssText = 'display: flex; flex-direction: column; width: 100%; height: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 20px;';
 
-  // Header
+  // Header section
   const header = document.createElement('div');
-  header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; flex-shrink: 0;';
+  // Removed padding, added margin-top to align visually with the house target number
+  header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 15px; margin-bottom: 20px; flex-shrink: 0; gap: 20px;';
 
   const progressText = document.createElement('div');
   progressText.style.cssText = 'font-weight: 700; font-size: 1.2rem; color: #7d733a;';
@@ -40,14 +41,16 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   };
 
   header.append(progressText, exitBtn);
-  gameWrapper.appendChild(header);
 
-  // Main interactive area (Flex container: Numpad on left, House on right)
+  // Main interactive area (Flex container: Left Column on left, Content on right)
   const mainArea = document.createElement('div');
   mainArea.className = 'math-main-area';
   gameWrapper.appendChild(mainArea);
 
-  // Custom Numpad (Left Panel)
+  const leftColumn = document.createElement('div');
+  leftColumn.className = 'math-left-column';
+
+  // Custom Numpad
   const numpadPanel = document.createElement('div');
   numpadPanel.className = 'math-numpad-panel';
 
@@ -75,7 +78,10 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   }
 
   numpadPanel.appendChild(numpadGrid);
-  mainArea.appendChild(numpadPanel);
+
+  leftColumn.appendChild(header);
+  leftColumn.appendChild(numpadPanel);
+  mainArea.appendChild(leftColumn);
 
   // Content Area (Right Panel: House and Examples)
   const contentArea = document.createElement('div');
@@ -92,10 +98,18 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
       flex-direction: row;
       flex: 1;
       width: 100%;
-      gap: 40px;
+      gap: 60px;
+      justify-content: center;
       align-items: flex-start;
-      padding: 20px;
+      padding: 40px 20px 20px;
       box-sizing: border-box;
+    }
+
+    .math-left-column {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      max-width: 400px;
     }
 
     .math-numpad-panel {
@@ -279,13 +293,22 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
     @media (max-width: 900px) {
       .math-main-area {
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
         padding: 10px;
         gap: 20px;
       }
 
+      .math-left-column {
+        display: contents;
+      }
+
+      .math-content-area {
+        order: 2;
+      }
+
       .math-numpad-panel {
+        order: 3;
         width: 100%;
         max-width: 600px;
         padding: 15px;

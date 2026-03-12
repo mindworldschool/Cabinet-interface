@@ -25,23 +25,6 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   gameWrapper.className = 'math-game-wrapper';
   gameWrapper.style.cssText = 'display: flex; flex-direction: column; width: 100%; height: 100%; max-width: 1200px; margin: 0 auto; padding-bottom: 20px;';
 
-  // Header section
-  const header = document.createElement('div');
-  // Removed padding, added margin-top to align visually with the house target number
-  header.style.cssText = 'display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 15px; margin-bottom: 20px; flex-shrink: 0; gap: 20px;';
-
-  const progressText = document.createElement('div');
-  progressText.style.cssText = 'font-weight: 700; font-size: 1.2rem; color: #7d733a;';
-
-  const exitBtn = document.createElement('button');
-  exitBtn.className = 'btn btn--secondary';
-  exitBtn.textContent = t('trainer.exitButton');
-  exitBtn.onclick = () => {
-    eventBus.emit(EVENTS.TRAINING_FINISH, { phase: 'exit' });
-  };
-
-  header.append(progressText, exitBtn);
-
   // Main interactive area (Flex container: Left Column on left, Content on right)
   const mainArea = document.createElement('div');
   mainArea.className = 'math-main-area';
@@ -49,6 +32,9 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
   const leftColumn = document.createElement('div');
   leftColumn.className = 'math-left-column';
+
+  const progressText = document.createElement('div');
+  progressText.style.cssText = 'font-weight: 700; font-size: 1.2rem; color: #7d733a; margin-top: 15px; margin-bottom: 20px; align-self: flex-start;';
 
   // Custom Numpad
   const numpadPanel = document.createElement('div');
@@ -79,8 +65,21 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
   numpadPanel.appendChild(numpadGrid);
 
-  leftColumn.appendChild(header);
+  const exitBtnContainer = document.createElement('div');
+  exitBtnContainer.style.cssText = 'display: flex; justify-content: flex-end; width: 100%; margin-top: 20px;';
+
+  const exitBtn = document.createElement('button');
+  exitBtn.className = 'btn btn--secondary';
+  exitBtn.textContent = t('trainer.exitButton');
+  exitBtn.onclick = () => {
+    eventBus.emit(EVENTS.TRAINING_FINISH, { phase: 'exit' });
+  };
+
+  exitBtnContainer.appendChild(exitBtn);
+
+  leftColumn.appendChild(progressText);
   leftColumn.appendChild(numpadPanel);
+  leftColumn.appendChild(exitBtnContainer);
   mainArea.appendChild(leftColumn);
 
   // Content Area (Right Panel: House and Examples)

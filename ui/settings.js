@@ -146,9 +146,9 @@ export function renderSettings(container, { t, state, updateSettings, navigate }
 
   // Берем дефолтные настройки из state (или ставим резервные)
   const settingsState = state.settings || {
-    colorsCount: "4",
-    gameMode: "classic",
-    examples: { count: 10, infinite: false }
+    targetNumber: "5",
+    gameMode: "houses_only",
+    taskCount: { count: 3, infinite: false }
   };
 
   const form = document.createElement("form");
@@ -157,46 +157,45 @@ export function renderSettings(container, { t, state, updateSettings, navigate }
   const baseGrid = document.createElement("div");
   baseGrid.className = "settings-grid";
 
-  // 1. Выбор количества цветов
-  const colorsRow = createFormRow(t("settings.colorsCountLabel"));
-  colorsRow.control.appendChild(
-    createSelect(t("settings.colorsCountOptions"), settingsState.colorsCount, (value) => {
-      updateSettings({ colorsCount: value });
+  // 1. Выбор целевого числа (targetNumber)
+  const targetNumberRow = createFormRow(t("settings.targetNumberLabel"));
+  targetNumberRow.control.appendChild(
+    createSelect(t("settings.targetNumberOptions"), settingsState.targetNumber, (value) => {
+      updateSettings({ targetNumber: value });
     })
   );
-  baseGrid.appendChild(colorsRow.row);
+  baseGrid.appendChild(targetNumberRow.row);
 
-  // 2. Выбор количества раундов (используем твой крутой счетчик с бесконечностью)
-  const examplesRow = createFormRow(t("settings.examples.label"));
-  examplesRow.control.appendChild(
+  // 2. Выбор количества заданий (taskCount)
+  const taskCountRow = createFormRow(t("settings.taskCount.label"));
+  taskCountRow.control.appendChild(
     createCounter({
-      count: settingsState.examples.count,
-      infinite: settingsState.examples.infinite,
-      infinityLabel: t("settings.examples.infinityLabel"),
+      count: settingsState.taskCount?.count || 3,
+      infinite: settingsState.taskCount?.infinite || false,
+      infinityLabel: t("settings.taskCount.infinityLabel"),
       onUpdate: ({ count, infinite }) => {
-        const current = state.settings.examples;
-        updateSettings({ examples: { ...current, count, infinite } });
+        updateSettings({ taskCount: { count, infinite } });
       }
     })
   );
-  baseGrid.appendChild(examplesRow.row);
+  baseGrid.appendChild(taskCountRow.row);
 
   form.appendChild(baseGrid);
 
-  // 3. Секция "Режим Игры" (Классика / Хардкор)
+  // 3. Секция "Режим Игры" (Только домики, Только примеры, Домики + Примеры)
   const modeSection = createSection(t("settings.gameModeLabel"));
   const modeList = document.createElement("div");
   modeList.className = "toggle-list";
 
-  ['classic', 'hardcore'].forEach(mode => {
-    const isSelected = (settingsState.gameMode || 'classic') === mode;
+  ['houses_only', 'examples_only', 'combined'].forEach(mode => {
+    const isSelected = (settingsState.gameMode || 'houses_only') === mode;
     
-    // Создаем кастомный toggle-pill (как у тебя было для "Позиция неизвестного")
+    // Создаем кастомный toggle-pill
     const label = document.createElement("label");
     label.className = "toggle-pill" + (isSelected ? " is-active" : "");
     
     const input = document.createElement("input");
-    input.type = "radio"; // Используем radio, так как выбрать можно только один режим
+    input.type = "radio";
     input.name = "gameMode";
     input.value = mode;
     input.checked = isSelected;
@@ -204,15 +203,19 @@ export function renderSettings(container, { t, state, updateSettings, navigate }
     input.addEventListener("change", () => {
       if (input.checked) {
         updateSettings({ gameMode: mode });
-        // Обновляем визуал: убираем активный класс у всех, добавляем текущему
         modeList.querySelectorAll('label').forEach(l => l.classList.remove('is-active'));
         label.classList.add('is-active');
       }
     });
 
     const text = document.createElement("span");
-    // Ключи из словаря: t("settings.modeClassic") и t("settings.modeHardcore")
-    text.textContent = t(`settings.mode${mode.charAt(0).toUpperCase() + mode.slice(1)}`);
+    // Ключи из словаря: t("settings.modeHouses_only"), t("settings.modeExamples_only"), t("settings.modeCombined")
+    const modeKeyMap = {
+      'houses_only': 'modeHouses_only',
+      'examples_only': 'modeExamples_only',
+      'combined': 'modeCombined'
+    };
+    text.textContent = t(`settings.${modeKeyMap[mode]}`);
 
     label.append(input, text);
     modeList.appendChild(label);

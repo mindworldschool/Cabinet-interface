@@ -11,15 +11,15 @@ let currentState = {
   route: DEFAULTS.ROUTE,
   language: DEFAULTS.LANGUAGE,
   settings: {
-    // === НАСТРОЙКИ СТРУПА ===
-    colorsCount: "4",        // "4", "8", "12", "16" (согласно dictionaries.js)
-    gameMode: "classic",     // "classic" или "hardcore"
-    examples: { count: 10, infinite: false } // Количество раундов (оставляем как было)
+    // === НАСТРОЙКИ СОСТАВА ЧИСЛА ===
+    targetNumber: "5",       // "2", "3", ... "10", "mix"
+    gameMode: "houses_only", // "houses_only", "examples_only", "combined"
+    taskCount: { count: 3, infinite: false } // Количество домиков/заданий за одну сессию
   },
   results: {
     success: 0,
     total: 0,
-    wrongExamples: [],
+    errorCount: 0,
     totalTimeMs: 0 // Добавили для подсчета средней скорости реакции
   },
   retryMode: {
@@ -115,7 +115,7 @@ export function resetResults() {
   const emptyResults = {
     success: 0,
     total: 0,
-    wrongExamples: [],
+    errorCount: 0,
     totalTimeMs: 0
   };
   setState({ results: emptyResults }, true);

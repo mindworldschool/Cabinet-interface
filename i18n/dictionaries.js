@@ -3,9 +3,9 @@ export const dictionaries = {
   "en": {
     "language": "English",
     "header": {
-      "titleMain": "Color Storm",
-      "titleSub": "Stroop Effect Brain Trainer",
-      "tagline": "Test your cognitive flexibility",
+      "titleMain": "Number Composition",
+      "titleSub": "Math Houses",
+      "tagline": "Practice basic addition and subtraction",
       "steps": {
         "settings": "Settings",
         "confirmation": "Confirmation",
@@ -13,40 +13,47 @@ export const dictionaries = {
         "results": "Results"
       }
     },
-    "footer": "MindWorld School © 2025",
+    "footer": "MindWorld School © 2026",
     "buttons": {
       "back": "Back",
       "continue": "Continue",
-      "start": "Start training",
+      "start": "Start",
       "finish": "Finish",
-      "new": "New setup"
+      "new": "To settings"
     },
     "settings": {
       "title": "Training setup",
-      "description": "Choose your difficulty level and game mode.",
-      "colorsCountLabel": "Number of colors",
-      "colorsCountOptions": [
-        { "value": "4", "label": "4 colors (Start)" },
-        { "value": "8", "label": "8 colors (Normal)" },
-        { "value": "12", "label": "12 colors (Hard)" },
-        { "value": "16", "label": "16 colors (Max)" }
+      "description": "Choose target number and game mode.",
+      "targetNumberLabel": "Target Number",
+      "targetNumberOptions": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" },
+        { "value": "mix", "label": "Mix (2-10)" }
       ],
-      "examples": {
-        "label": "Number of rounds",
+      "gameModeLabel": "Game Mode",
+      "modeHouses_only": "Houses only",
+      "modeExamples_only": "Examples only",
+      "modeCombined": "Houses + Examples",
+      "taskCount": {
+        "label": "Number of tasks",
         "infinityLabel": "∞"
       },
-      "gameModeLabel": "Difficulty",
-      "modeClassic": "Easy mode",
-      "modeHardcore": "Trap mode",
       "submit": "Save settings"
     },
     "confirmation": {
       "title": "Review your configuration",
       "description": "Make sure these session parameters suit you before continuing.",
       "list": {
-        "colorsCount": "Number of colors",
-        "examples": "Rounds to play",
-        "mode": "Difficulty"
+        "targetNumber": "Target number",
+        "mode": "Game Mode",
+        "taskCount": "Tasks to play"
       },
       "boolean": {
         "yes": "Yes",
@@ -54,52 +61,32 @@ export const dictionaries = {
       }
     },
     "game": {
-      "title": "Focus Session",
-      "description": "Ignore the word, look at the font color!",
-      "helper": "Select the button that matches the INK color of the word above.",
+      "title": "Math Training",
+      "description": "Fill the empty windows!",
       "cta": "Finish session"
     },
     "results": {
       "title": "Session summary",
-      "description": "Here is how your brain handled the conflict.",
-      "success": "Correct choices",
-      "mistakes": "Impulsive mistakes",
+      "description": "Your results are here.",
+      "errors": "Errors",
       "speed": "Average speed",
-      "cta": "Try again",
-      "retryErrors": "New setup"
+      "cta": "Repeat",
+      "retryErrors": "To settings",
+      "feedback0": "Grand! No errors!",
+      "feedback1_2": "Good job!",
+      "feedbackMore": "Need more practice. Errors: {errorCount}"
     },
     "trainer": {
-      "correctLabel": "Correct: ",
-      "incorrectLabel": "Mistakes: ",
       "exitButton": "⏹ Exit"
-    },
-    // Цвета для генерации
-    "colors": {
-      "color_red": "RED",
-      "color_blue": "BLUE",
-      "color_green": "GREEN",
-      "color_yellow": "YELLOW",
-      "color_purple": "PURPLE",
-      "color_orange": "ORANGE",
-      "color_pink": "PINK",
-      "color_cyan": "LIGHT BLUE",
-      "color_brown": "BROWN",
-      "color_gray": "GRAY",
-      "color_black": "BLACK",
-      "color_white": "WHITE",
-      "color_lime": "LIME",
-      "color_raspberry": "RASPBERRY",
-      "color_olive": "OLIVE",
-      "color_lilac": "LILAC"
     }
   },
 
   "es": {
     "language": "Español",
     "header": {
-      "titleMain": "Tormenta de Colores",
-      "titleSub": "Entrenador del Efecto Stroop",
-      "tagline": "Pon a prueba tu flexibilidad cognitiva",
+      "titleMain": "Composición de Números",
+      "titleSub": "Casitas Matemáticas",
+      "tagline": "Practica sumas y restas básicas",
       "steps": {
         "settings": "Ajustes",
         "confirmation": "Confirmación",
@@ -107,40 +94,47 @@ export const dictionaries = {
         "results": "Resultados"
       }
     },
-    "footer": "MindWorld School © 2025",
+    "footer": "MindWorld School © 2026",
     "buttons": {
       "back": "Atrás",
       "continue": "Continuar",
-      "start": "Comenzar práctica",
+      "start": "Comenzar",
       "finish": "Finalizar",
-      "new": "Nueva configuración"
+      "new": "A ajustes"
     },
     "settings": {
       "title": "Configura la sesión",
-      "description": "Elige tu nivel de dificultad y modo de juego.",
-      "colorsCountLabel": "Cantidad de colores",
-      "colorsCountOptions": [
-        { "value": "4", "label": "4 colores (Inicio)" },
-        { "value": "8", "label": "8 colores (Normal)" },
-        { "value": "12", "label": "12 colores (Difícil)" },
-        { "value": "16", "label": "16 colores (Máx)" }
+      "description": "Elige el número objetivo y modo de juego.",
+      "targetNumberLabel": "Número Objetivo",
+      "targetNumberOptions": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" },
+        { "value": "mix", "label": "Mezcla (2-10)" }
       ],
-      "examples": {
-        "label": "Número de rondas",
+      "gameModeLabel": "Modo de juego",
+      "modeHouses_only": "Solo casitas",
+      "modeExamples_only": "Solo ejemplos",
+      "modeCombined": "Casitas + Ejemplos",
+      "taskCount": {
+        "label": "Número de tareas",
         "infinityLabel": "∞"
       },
-      "gameModeLabel": "Dificultad",
-      "modeClassic": "Modo fácil",
-      "modeHardcore": "Modo trampa",
       "submit": "Guardar configuración"
     },
     "confirmation": {
       "title": "Revisa la configuración",
       "description": "Asegúrate de que los parámetros sean correctos antes de iniciar.",
       "list": {
-        "colorsCount": "Cantidad de colores",
-        "examples": "Rondas a jugar",
-        "mode": "Dificultad"
+        "targetNumber": "Número objetivo",
+        "mode": "Modo de juego",
+        "taskCount": "Tareas"
       },
       "boolean": {
         "yes": "Sí",
@@ -148,51 +142,32 @@ export const dictionaries = {
       }
     },
     "game": {
-      "title": "Sesión de Enfoque",
-      "description": "¡Ignora la palabra, mira el color de la fuente!",
-      "helper": "Selecciona el botón que coincida con el color de la TINTA de la palabra de arriba.",
+      "title": "Entrenamiento Matemático",
+      "description": "¡Llena las ventanas vacías!",
       "cta": "Finalizar sesión"
     },
     "results": {
       "title": "Resultados de la sesión",
-      "description": "Así es como tu cerebro manejó el conflicto.",
-      "success": "Elecciones correctas",
-      "mistakes": "Errores impulsivos",
+      "description": "Tus resultados.",
+      "errors": "Errores",
       "speed": "Velocidad promedio",
-      "cta": "Intentar de nuevo",
-      "retryErrors": "Nueva configuración"
+      "cta": "Repetir",
+      "retryErrors": "A ajustes",
+      "feedback0": "¡Grandioso! ¡Cero errores!",
+      "feedback1_2": "¡Buen trabajo!",
+      "feedbackMore": "Necesitas más práctica. Errores: {errorCount}"
     },
     "trainer": {
-      "correctLabel": "Correctos: ",
-      "incorrectLabel": "Errores: ",
       "exitButton": "⏹ Salir"
-    },
-    "colors": {
-      "color_red": "ROJO",
-      "color_blue": "AZUL",
-      "color_green": "VERDE",
-      "color_yellow": "AMARILLO",
-      "color_purple": "MORADO",
-      "color_orange": "NARANJA",
-      "color_pink": "ROSA",
-      "color_cyan": "CELESTE",
-      "color_brown": "MARRÓN",
-      "color_gray": "GRIS",
-      "color_black": "NEGRO",
-      "color_white": "BLANCO",
-      "color_lime": "LIMA",
-      "color_raspberry": "FRAMBUESA",
-      "color_olive": "OLIVA",
-      "color_lilac": "LILA"
     }
   },
 
   "ru": {
     "language": "Русский",
     "header": {
-      "titleMain": "Цветовой Штурм",
-      "titleSub": "Тренажер Эффекта Струпа",
-      "tagline": "Проверь свою когнитивную гибкость",
+      "titleMain": "Состав числа",
+      "titleSub": "Математические домики",
+      "tagline": "Тренировка базового сложения и вычитания",
       "steps": {
         "settings": "Настройки",
         "confirmation": "Подтверждение",
@@ -200,40 +175,47 @@ export const dictionaries = {
         "results": "Результаты"
       }
     },
-    "footer": "MindWorld School © 2025",
+    "footer": "MindWorld School © 2026",
     "buttons": {
       "back": "Назад",
       "continue": "Продолжить",
-      "start": "Начать тренировку",
+      "start": "СТАРТ",
       "finish": "Завершить",
-      "new": "Новое задание"
+      "new": "В настройки"
     },
     "settings": {
       "title": "Параметры тренировки",
-      "description": "Выберите уровень сложности и режим игры.",
-      "colorsCountLabel": "Количество цветов",
-      "colorsCountOptions": [
-        { "value": "4", "label": "4 цвета (Старт)" },
-        { "value": "8", "label": "8 цветов (Норма)" },
-        { "value": "12", "label": "12 цветов (Сложно)" },
-        { "value": "16", "label": "16 цветов (Макс)" }
+      "description": "Выберите целевое число и режим игры.",
+      "targetNumberLabel": "Целевое число",
+      "targetNumberOptions": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" },
+        { "value": "mix", "label": "Случайные (2-10)" }
       ],
-      "examples": {
-        "label": "Количество раундов",
+      "gameModeLabel": "Режим игры",
+      "modeHouses_only": "Только домики",
+      "modeExamples_only": "Только примеры",
+      "modeCombined": "Домики + Примеры",
+      "taskCount": {
+        "label": "Количество заданий",
         "infinityLabel": "∞"
       },
-      "gameModeLabel": "Сложность",
-      "modeClassic": "Простой режим",
-      "modeHardcore": "Режим ловушки",
       "submit": "Сохранить настройки"
     },
     "confirmation": {
-      "title": "Проверьте настройки",
-      "description": "Убедитесь, что параметры сессии подходят.",
+      "title": "Подтверждение",
+      "description": "Проверьте выбранные параметры сессии.",
       "list": {
-        "colorsCount": "Количество цветов",
-        "examples": "Раундов в игре",
-        "mode": "Сложность"
+        "targetNumber": "Тема (Состав числа)",
+        "mode": "Режим",
+        "taskCount": "Заданий"
       },
       "boolean": {
         "yes": "Да",
@@ -241,51 +223,33 @@ export const dictionaries = {
       }
     },
     "game": {
-      "title": "Фокус-сессия",
-      "description": "Игнорируй текст, смотри на цвет шрифта!",
-      "helper": "Нажми кнопку, на которой НАПИСАН тот цвет, которым ПОКРАШЕНО верхнее слово.",
-      "cta": "Завершить сессию"
+      "title": "Тренировка",
+      "description": "Заполни пустые окошки!",
+      "cta": "Завершить сессию",
+      "next": "Дальше"
     },
     "results": {
-      "title": "Итоги сессии",
-      "description": "Вот как ваш мозг справился с конфликтом.",
-      "success": "Верных решений",
-      "mistakes": "Импульсивных ошибок",
+      "title": "Итоги",
+      "description": "Результат вашей тренировки.",
+      "errors": "Ошибок",
       "speed": "Средняя скорость",
-      "cta": "Попробовать еще",
-      "retryErrors": "Новое задание"
+      "cta": "Повторить",
+      "retryErrors": "В настройки",
+      "feedback0": "Грандиозно! Ни одной ошибки!",
+      "feedback1_2": "Хорошая работа!",
+      "feedbackMore": "Нужно еще потренироваться. Ошибок: {errorCount}"
     },
     "trainer": {
-      "correctLabel": "Правильно: ",
-      "incorrectLabel": "Ошибки: ",
       "exitButton": "⏹ Выйти"
-    },
-    "colors": {
-      "color_red": "КРАСНЫЙ",
-      "color_blue": "СИНИЙ",
-      "color_green": "ЗЕЛЕНЫЙ",
-      "color_yellow": "ЖЕЛТЫЙ",
-      "color_purple": "ФИОЛЕТОВЫЙ",
-      "color_orange": "ОРАНЖЕВЫЙ",
-      "color_pink": "РОЗОВЫЙ",
-      "color_cyan": "ГОЛУБОЙ",
-      "color_brown": "КОРИЧНЕВЫЙ",
-      "color_gray": "СЕРЫЙ",
-      "color_black": "ЧЕРНЫЙ",
-      "color_white": "БЕЛЫЙ",
-      "color_lime": "ЛАЙМ",
-      "color_raspberry": "МАЛИНОВЫЙ",
-      "color_olive": "ОЛИВКОВЫЙ",
-      "color_lilac": "СИРЕНЕВЫЙ"
     }
   },
 
   "ua": {
     "language": "Українська",
     "header": {
-      "titleMain": "Кольоровий Штурм",
-      "titleSub": "Тренажер Ефекту Струпа",
-      "tagline": "Перевір свою когнітивну гнучкість",
+      "titleMain": "Склад числа",
+      "titleSub": "Математичні будиночки",
+      "tagline": "Тренування базового додавання та віднімання",
       "steps": {
         "settings": "Налаштування",
         "confirmation": "Підтвердження",
@@ -293,40 +257,47 @@ export const dictionaries = {
         "results": "Результати"
       }
     },
-    "footer": "MindWorld School © 2025",
+    "footer": "MindWorld School © 2026",
     "buttons": {
       "back": "Назад",
       "continue": "Продовжити",
-      "start": "Почати тренування",
+      "start": "СТАРТ",
       "finish": "Завершити",
-      "new": "Нове налаштування"
+      "new": "В налаштування"
     },
     "settings": {
       "title": "Параметри тренування",
-      "description": "Оберіть рівень складності та режим гри.",
-      "colorsCountLabel": "Кількість кольорів",
-      "colorsCountOptions": [
-        { "value": "4", "label": "4 кольори (Старт)" },
-        { "value": "8", "label": "8 кольорів (Норма)" },
-        { "value": "12", "label": "12 кольорів (Складно)" },
-        { "value": "16", "label": "16 кольорів (Макс)" }
+      "description": "Оберіть цільове число та режим гри.",
+      "targetNumberLabel": "Цільове число",
+      "targetNumberOptions": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" },
+        { "value": "7", "label": "7" },
+        { "value": "8", "label": "8" },
+        { "value": "9", "label": "9" },
+        { "value": "10", "label": "10" },
+        { "value": "mix", "label": "Випадкові (2-10)" }
       ],
-      "examples": {
-        "label": "Кількість раундів",
+      "gameModeLabel": "Режим гри",
+      "modeHouses_only": "Тільки будиночки",
+      "modeExamples_only": "Тільки приклади",
+      "modeCombined": "Будиночки + Приклади",
+      "taskCount": {
+        "label": "Кількість завдань",
         "infinityLabel": "∞"
       },
-      "gameModeLabel": "Складність",
-      "modeClassic": "Простий режим",
-      "modeHardcore": "Режим пастки",
       "submit": "Зберегти налаштування"
     },
     "confirmation": {
-      "title": "Перевірте налаштування",
-      "description": "Переконайтеся, що параметри сесії вас влаштовують.",
+      "title": "Підтвердження",
+      "description": "Перевірте вибрані параметри сесії.",
       "list": {
-        "colorsCount": "Кількість кольорів",
-        "examples": "Раундів у грі",
-        "mode": "Складність"
+        "targetNumber": "Тема (Склад числа)",
+        "mode": "Режим",
+        "taskCount": "Завдань"
       },
       "boolean": {
         "yes": "Так",
@@ -334,42 +305,24 @@ export const dictionaries = {
       }
     },
     "game": {
-      "title": "Фокус-сесія",
-      "description": "Ігноруй текст, дивись на колір шрифту!",
-      "helper": "Натисни кнопку, на якій НАПИСАНО той колір, яким ПОФАРБОВАНО верхнє слово.",
-      "cta": "Завершити сесію"
+      "title": "Тренування",
+      "description": "Заповни порожні віконця!",
+      "cta": "Завершити сесію",
+      "next": "Далі"
     },
     "results": {
-      "title": "Підсумки сесії",
-      "description": "Ось як ваш мозок впорався з конфліктом.",
-      "success": "Правильних рішень",
-      "mistakes": "Імпульсивних помилок",
+      "title": "Підсумки",
+      "description": "Результат вашого тренування.",
+      "errors": "Помилок",
       "speed": "Середня швидкість",
-      "cta": "Спробувати ще",
-      "retryErrors": "Нове налаштування"
+      "cta": "Повторити",
+      "retryErrors": "В налаштування",
+      "feedback0": "Грандіозно! Жодної помилки!",
+      "feedback1_2": "Гарна робота!",
+      "feedbackMore": "Треба ще потренуватися. Помилок: {errorCount}"
     },
     "trainer": {
-      "correctLabel": "Правильно: ",
-      "incorrectLabel": "Помилки: ",
       "exitButton": "⏹ Вийти"
-    },
-    "colors": {
-      "color_red": "ЧЕРВОНИЙ",
-      "color_blue": "СИНІЙ",
-      "color_green": "ЗЕЛЕНИЙ",
-      "color_yellow": "ЖОВТИЙ",
-      "color_purple": "ФІОЛЕТОВИЙ",
-      "color_orange": "ПОМАРАНЧЕВИЙ",
-      "color_pink": "РОЖЕВИЙ",
-      "color_cyan": "БЛАКИТНИЙ",
-      "color_brown": "КОРИЧНЕВИЙ",
-      "color_gray": "СІРИЙ",
-      "color_black": "ЧОРНИЙ",
-      "color_white": "БІЛИЙ",
-      "color_lime": "ЛАЙМ",
-      "color_raspberry": "МАЛИНОВИЙ",
-      "color_olive": "ОЛИВКОВИЙ",
-      "color_lilac": "БУЗКОВИЙ"
     }
   }
 };

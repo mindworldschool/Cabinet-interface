@@ -35,21 +35,18 @@ export async function renderGame(container, { t, state, navigate }) {
     if (stats.phase === "done") {
       const isRetry = globalState.retryMode?.enabled === true;
 
-      // СОХРАНЯЕМ РЕЗУЛЬТАТЫ (добавили totalTimeMs)
+      // СОХРАНЯЕМ РЕЗУЛЬТАТЫ (добавили errorCount)
       setResults({
         success: stats.correct || 0,
         total: stats.total || 0,
-        wrongExamples: stats.wrongExamples || [],
-        totalTimeMs: stats.totalTimeMs || 0 // <-- Новое поле для подсчета скорости
+        errorCount: stats.errorCount || 0,
+        totalTimeMs: stats.totalTimeMs || 0
       });
 
-      // Вырубаем retryMode.enabled = false, если ошибок больше нет
-      if (!stats.wrongExamples || stats.wrongExamples.length === 0) {
-        globalState.retryMode = {
-          enabled: false,
-          examples: []
-        };
-      }
+      globalState.retryMode = {
+        enabled: false,
+        examples: []
+      };
 
       // Save to Firestore if opened in homework mode
       if (getHwId()) {
@@ -78,18 +75,18 @@ export async function renderGame(container, { t, state, navigate }) {
     setResults({
       success: stats.correct || 0,
       total: stats.total || 0,
-      wrongExamples: stats.wrongExamples || [],
+      errorCount: stats.errorCount || 0,
       totalTimeMs: stats.totalTimeMs || 0
     });
     navigate("results");
   });
 
   try {
-    // ДИНАМИЧЕСКИ ГРУЗИМ НОВЫЙ ТРЕНАЖЕР СТРУПА
-    const module = await import("../ext/stroop-trainer.js");
+    // ДИНАМИЧЕСКИ ГРУЗИМ НОВЫЙ ТРЕНАЖЕР СОСТАВА ЧИСЛА
+    const module = await import("../ext/math-trainer.js");
     
     if (!module?.mountTrainerUI) {
-      throw new Error("Module stroop-trainer.js loaded but mountTrainerUI not found");
+      throw new Error("Module math-trainer.js loaded but mountTrainerUI not found");
     }
 
     logger.info(CONTEXT, "Mounting trainer...");

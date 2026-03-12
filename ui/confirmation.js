@@ -20,25 +20,29 @@ export function renderConfirmation(container, { t, state, navigate }) {
 
   const settings = state.settings || {};
 
-  // 1. Количество цветов (colorsCount)
-  const colorsOptions = t('settings.colorsCountOptions');
-  const colorOption = Array.isArray(colorsOptions)
-    ? colorsOptions.find(opt => opt.value === settings.colorsCount)
+  // 1. Целевое число (targetNumber)
+  const targetNumberOptions = t('settings.targetNumberOptions');
+  const targetOption = Array.isArray(targetNumberOptions)
+    ? targetNumberOptions.find(opt => opt.value === String(settings.targetNumber))
     : null;
-  const colorsText = colorOption ? colorOption.label : (settings.colorsCount || "4");
-  addConfigItem(config, t('confirmation.list.colorsCount'), colorsText);
+  const targetText = targetOption ? targetOption.label : (settings.targetNumber || "5");
+  addConfigItem(config, t('confirmation.list.targetNumber'), targetText);
 
-  // 2. Количество раундов (examples)
-  const examplesText = settings.examples?.infinite
-    ? t('confirmation.counter.infinity')
-    : String(settings.examples?.count || 10);
-  addConfigItem(config, t('confirmation.list.examples'), examplesText);
-
-  // 3. Режим игры (Classic / Hardcore)
-  // Формируем ключ для словаря (modeClassic или modeHardcore)
-  const modeKey = settings.gameMode === 'hardcore' ? 'modeHardcore' : 'modeClassic';
+  // 2. Режим игры (gameMode)
+  const modeKeyMap = {
+    'houses_only': 'modeHouses_only',
+    'examples_only': 'modeExamples_only',
+    'combined': 'modeCombined'
+  };
+  const modeKey = modeKeyMap[settings.gameMode] || 'modeHouses_only';
   const modeText = t(`settings.${modeKey}`);
   addConfigItem(config, t('confirmation.list.mode'), modeText);
+
+  // 3. Количество заданий (taskCount)
+  const taskCountText = settings.taskCount?.infinite
+    ? t('settings.taskCount.infinityLabel') || '∞'
+    : String(settings.taskCount?.count || 3);
+  addConfigItem(config, t('confirmation.list.taskCount'), taskCountText);
 
   body.appendChild(config);
 

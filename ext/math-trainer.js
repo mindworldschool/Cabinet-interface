@@ -341,9 +341,9 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
   function updateProgress() {
     if (isInfinite) {
-      progressText.textContent = `Завдання: ${currentTaskIndex + 1}`;
+      progressText.textContent = `${t('game.task') || 'Task:'} ${currentTaskIndex + 1}`;
     } else {
-      progressText.textContent = `Завдання: ${currentTaskIndex + 1} / ${taskCount}`;
+      progressText.textContent = `${t('game.task') || 'Task:'} ${currentTaskIndex + 1} / ${taskCount}`;
     }
   }
 
@@ -426,7 +426,7 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
     const nextBtn = document.createElement('button');
     nextBtn.className = 'btn btn--primary';
-    nextBtn.textContent = t('game.next') || 'Далі';
+    nextBtn.textContent = t('game.next') || 'Next';
     nextBtn.style.fontSize = '1.2rem';
     nextBtn.style.padding = '15px 40px';
     nextBtn.onclick = handleNextTask;

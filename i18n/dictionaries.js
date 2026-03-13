@@ -26,6 +26,7 @@ export const dictionaries = {
       "description": "Choose target number and game mode.",
       "targetNumberLabel": "Target Number",
       "targetNumberOptions": [
+        { "value": "1", "label": "1" },
         { "value": "2", "label": "2" },
         { "value": "3", "label": "3" },
         { "value": "4", "label": "4" },
@@ -35,7 +36,7 @@ export const dictionaries = {
         { "value": "8", "label": "8" },
         { "value": "9", "label": "9" },
         { "value": "10", "label": "10" },
-        { "value": "mix", "label": "Mix (2-10)" }
+        { "value": "mix", "label": "Mix (1-10)" }
       ],
       "gameModeLabel": "Game Mode",
       "modeHouses_only": "Houses only",
@@ -109,6 +110,7 @@ export const dictionaries = {
       "description": "Elige el número objetivo y modo de juego.",
       "targetNumberLabel": "Número Objetivo",
       "targetNumberOptions": [
+        { "value": "1", "label": "1" },
         { "value": "2", "label": "2" },
         { "value": "3", "label": "3" },
         { "value": "4", "label": "4" },
@@ -118,7 +120,7 @@ export const dictionaries = {
         { "value": "8", "label": "8" },
         { "value": "9", "label": "9" },
         { "value": "10", "label": "10" },
-        { "value": "mix", "label": "Mezcla (2-10)" }
+        { "value": "mix", "label": "Mezcla (1-10)" }
       ],
       "gameModeLabel": "Modo de juego",
       "modeHouses_only": "Solo casitas",
@@ -192,6 +194,7 @@ export const dictionaries = {
       "description": "Выберите целевое число и режим игры.",
       "targetNumberLabel": "Целевое число",
       "targetNumberOptions": [
+        { "value": "1", "label": "1" },
         { "value": "2", "label": "2" },
         { "value": "3", "label": "3" },
         { "value": "4", "label": "4" },
@@ -201,7 +204,7 @@ export const dictionaries = {
         { "value": "8", "label": "8" },
         { "value": "9", "label": "9" },
         { "value": "10", "label": "10" },
-        { "value": "mix", "label": "Случайные (2-10)" }
+        { "value": "mix", "label": "Случайные (1-10)" }
       ],
       "gameModeLabel": "Режим игры",
       "modeHouses_only": "Только домики",
@@ -275,6 +278,7 @@ export const dictionaries = {
       "description": "Оберіть цільове число та режим гри.",
       "targetNumberLabel": "Цільове число",
       "targetNumberOptions": [
+        { "value": "1", "label": "1" },
         { "value": "2", "label": "2" },
         { "value": "3", "label": "3" },
         { "value": "4", "label": "4" },
@@ -284,7 +288,7 @@ export const dictionaries = {
         { "value": "8", "label": "8" },
         { "value": "9", "label": "9" },
         { "value": "10", "label": "10" },
-        { "value": "mix", "label": "Випадкові (2-10)" }
+        { "value": "mix", "label": "Випадкові (1-10)" }
       ],
       "gameModeLabel": "Режим гри",
       "modeHouses_only": "Тільки будиночки",

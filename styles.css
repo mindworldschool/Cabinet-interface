@@ -1343,11 +1343,20 @@ body.game-screen .screen__body {
 .math-house-target-overlay {
   position: absolute;
   transform: translate(-50%, -50%);
-  font-size: 2.5rem;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5rem;
   font-weight: 800;
-  color: white; /* Usually target is on a colored roof */
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  color: white;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   z-index: 2;
+  /* Adjust top position in JS config or keep it generic here */
+  top: -10%; /* Lift it above the tower */
 }
 
 .math-input-overlay {
@@ -1355,23 +1364,30 @@ body.game-screen .screen__body {
   transform: translate(-50%, -50%);
   width: 15%; /* Relative to the building width */
   aspect-ratio: 1; /* Keep it square */
-  min-width: 40px;
-  min-height: 40px;
+  min-width: 45px;
+  min-height: 45px;
   max-width: 60px;
   max-height: 60px;
 
-  /* Reset previous input styles to overlay perfectly */
+  /* Make it a circle */
   border: 3px solid transparent;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.7); /* Slightly transparent if we want to show window behind */
+  border-radius: 50%;
+  background: white;
   font-size: 1.8rem;
   font-weight: 800;
   text-align: center;
-  color: #333;
+  /* Green for typed values */
+  color: #10b981;
   outline: none;
   caret-color: transparent;
   z-index: 2;
   transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Base state for static numbers (orange) */
+.math-input-overlay[readonly] {
+  color: var(--color-primary);
 }
 
 .math-input-overlay:focus, .math-input-overlay.active {
@@ -1383,21 +1399,21 @@ body.game-screen .screen__body {
 .math-input-overlay.correct {
   border-color: #10b981;
   color: #10b981;
-  background: rgba(236, 253, 245, 0.9);
+  background: white;
 }
 
 .math-input-overlay.error {
   border-color: #ef4444;
   color: #ef4444;
-  background: rgba(254, 242, 242, 0.9);
+  background: white;
   animation: shake 0.4s;
 }
 
-/* If it's a static value, we just show it on the window */
+/* If it's a static value, we show it as orange text on white circle */
 .math-input-overlay[data-static="true"] {
-  background: transparent;
-  border-color: transparent;
-  color: #333;
+  background: white;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 

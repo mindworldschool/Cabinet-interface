@@ -2,6 +2,149 @@ import { generateTask } from './math-logic.js';
 import { eventBus, EVENTS } from '../core/utils/events.js';
 import { playSound } from '../js/utils/sound.js';
 
+export const BUILDINGS_DATA = {
+    1: { name: "Пирамида Хеопса", city: "Гиза", country: "Египет", flag: "🇪🇬" },
+    2: { name: "Киево-Печерская лавра", city: "Киев", country: "Украина", flag: "🇺🇦" },
+    3: { name: "Биг-Бен", city: "Лондон", country: "Великобритания", flag: "🇬🇧" },
+    4: { name: "Тадж-Махал", city: "Агра", country: "Индия", flag: "🇮🇳" },
+    5: { name: "Храм Неба", city: "Пекин", country: "Китай", flag: "🇨🇳" },
+    6: { name: "Сиднейский оперный театр", city: "Сидней", country: "Австралия", flag: "🇦🇺" },
+    7: { name: "Пизанская башня", city: "Пиза", country: "Италия", flag: "🇮🇹" },
+    8: { name: "Бурдж-Халифа", city: "Дубай", country: "ОАЭ", flag: "🇦🇪" },
+    9: { name: "Статуя Свободы", city: "Нью-Йорк", country: "США", flag: "🇺🇸" },
+    10: { name: "Эйфелева башня", city: "Париж", country: "Франция", flag: "🇫🇷" }
+};
+
+
+const BUILDINGS_OVERLAYS = {
+  1: {
+    image: './assets/buildings/building_1.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  2: {
+    image: './assets/buildings/building_2.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 36.5, y: 55.0 }, right: { x: 63.5, y: 55.0 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  3: {
+    image: './assets/buildings/building_3.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 34.0, y: 63.3 }, right: { x: 66.0, y: 63.3 } },
+      { left: { x: 39.2, y: 46.7 }, right: { x: 60.8, y: 46.7 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  4: {
+    image: './assets/buildings/building_4.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 32.8, y: 67.5 }, right: { x: 67.2, y: 67.5 } },
+      { left: { x: 36.5, y: 55.0 }, right: { x: 63.5, y: 55.0 } },
+      { left: { x: 40.6, y: 42.5 }, right: { x: 59.4, y: 42.5 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  5: {
+    image: './assets/buildings/building_5.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 32.2, y: 70.0 }, right: { x: 67.8, y: 70.0 } },
+      { left: { x: 35.0, y: 60.0 }, right: { x: 65.0, y: 60.0 } },
+      { left: { x: 38.1, y: 50.0 }, right: { x: 61.9, y: 50.0 } },
+      { left: { x: 41.5, y: 40.0 }, right: { x: 58.5, y: 40.0 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  6: {
+    image: './assets/buildings/building_6.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 31.7, y: 71.7 }, right: { x: 68.3, y: 71.7 } },
+      { left: { x: 34.0, y: 63.3 }, right: { x: 66.0, y: 63.3 } },
+      { left: { x: 36.5, y: 55.0 }, right: { x: 63.5, y: 55.0 } },
+      { left: { x: 39.2, y: 46.7 }, right: { x: 60.8, y: 46.7 } },
+      { left: { x: 42.1, y: 38.3 }, right: { x: 57.9, y: 38.3 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  7: {
+    image: './assets/buildings/building_7.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 31.5, y: 72.9 }, right: { x: 68.5, y: 72.9 } },
+      { left: { x: 33.3, y: 65.7 }, right: { x: 66.7, y: 65.7 } },
+      { left: { x: 35.4, y: 58.6 }, right: { x: 64.6, y: 58.6 } },
+      { left: { x: 37.7, y: 51.4 }, right: { x: 62.3, y: 51.4 } },
+      { left: { x: 40.0, y: 44.3 }, right: { x: 60.0, y: 44.3 } },
+      { left: { x: 42.5, y: 37.1 }, right: { x: 57.5, y: 37.1 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  8: {
+    image: './assets/buildings/building_8.png',
+    target: { x: 50, y: -4 },
+    floors: [
+      { left: { x: 20.0, y: 88.0 }, right: { x: 80.0, y: 88.0 } },
+      { left: { x: 21.9, y: 79.9 }, right: { x: 78.1, y: 79.9 } },
+      { left: { x: 24.4, y: 71.8 }, right: { x: 75.6, y: 71.8 } },
+      { left: { x: 27.1, y: 63.6 }, right: { x: 72.9, y: 63.6 } },
+      { left: { x: 30.0, y: 55.5 }, right: { x: 70.0, y: 55.5 } },
+      { left: { x: 33.1, y: 47.4 }, right: { x: 66.9, y: 47.4 } },
+      { left: { x: 36.3, y: 39.3 }, right: { x: 63.7, y: 39.3 } },
+      { left: { x: 39.6, y: 31.1 }, right: { x: 60.4, y: 31.1 } },
+      { left: { x: 43.0, y: 23.0 }, right: { x: 57.0, y: 23.0 } }
+    ]
+  },
+  9: {
+    image: './assets/buildings/building_9.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 31.1, y: 74.4 }, right: { x: 68.9, y: 74.4 } },
+      { left: { x: 32.5, y: 68.9 }, right: { x: 67.5, y: 68.9 } },
+      { left: { x: 34.0, y: 63.3 }, right: { x: 66.0, y: 63.3 } },
+      { left: { x: 35.7, y: 57.8 }, right: { x: 64.3, y: 57.8 } },
+      { left: { x: 37.4, y: 52.2 }, right: { x: 62.6, y: 52.2 } },
+      { left: { x: 39.2, y: 46.7 }, right: { x: 60.8, y: 46.7 } },
+      { left: { x: 41.1, y: 41.1 }, right: { x: 58.9, y: 41.1 } },
+      { left: { x: 43.0, y: 35.6 }, right: { x: 57.0, y: 35.6 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  },
+  10: {
+    image: './assets/buildings/building_10.png',
+    target: { x: 50, y: 5 },
+    floors: [
+      { left: { x: 30.0, y: 80.0 }, right: { x: 70.0, y: 80.0 } },
+      { left: { x: 30.9, y: 75.0 }, right: { x: 69.1, y: 75.0 } },
+      { left: { x: 32.2, y: 70.0 }, right: { x: 67.8, y: 70.0 } },
+      { left: { x: 33.5, y: 65.0 }, right: { x: 66.5, y: 65.0 } },
+      { left: { x: 35.0, y: 60.0 }, right: { x: 65.0, y: 60.0 } },
+      { left: { x: 36.5, y: 55.0 }, right: { x: 63.5, y: 55.0 } },
+      { left: { x: 38.1, y: 50.0 }, right: { x: 61.9, y: 50.0 } },
+      { left: { x: 39.8, y: 45.0 }, right: { x: 60.2, y: 45.0 } },
+      { left: { x: 41.5, y: 40.0 }, right: { x: 58.5, y: 40.0 } },
+      { left: { x: 43.2, y: 35.0 }, right: { x: 56.8, y: 35.0 } },
+      { left: { x: 45.0, y: 30.0 }, right: { x: 55.0, y: 30.0 } }
+    ]
+  }
+};
+
+
 export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   const settings = state.settings;
   const taskCount = settings.taskCount?.count || 3;
@@ -382,6 +525,7 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
     } else {
       progressText.textContent = `${t('game.task') || 'Task:'} ${currentTaskIndex + 1} / ${taskCount}`;
     }
+
   }
 
 
@@ -395,25 +539,12 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   // Overlay config for building_8.png (Eiffel Tower)
   // X, Y are in percentages from top-left of the image.
 
-  const OVERLAY_CONFIG_8 = {
-    image: './assets/buildings/building_8.png',
-    floors: [
-      { y: 39.0, leftX: 42.0, rightX: 58.0 }, // Floor 1
-      { y: 44.0, leftX: 42.0, rightX: 58.0 }, // Floor 2
-      { y: 49.0, leftX: 42.0, rightX: 58.0 }, // Floor 3
-      { y: 53.5, leftX: 42.0, rightX: 58.0 }, // Floor 4
-      { y: 58.0, leftX: 42.0, rightX: 58.0 }, // Floor 5
-      { y: 62.5, leftX: 42.0, rightX: 58.0 }, // Floor 6
-      { y: 67.0, leftX: 42.0, rightX: 58.0 }, // Floor 7
-      { y: 71.5, leftX: 42.0, rightX: 58.0 }, // Floor 8
-      { y: 76.0, leftX: 42.0, rightX: 58.0 }, // Floor 9
-      { y: 80.5, leftX: 42.0, rightX: 58.0 }  // Floor 10 (for target 9)
-    ],
-    target: { x: 50.0, y: 34.0 } // Top of the tower
-  };
-function renderTask() {
+  function renderTask() {
     contentArea.innerHTML = '';
     allInputs = [];
+    const oldInfo = document.querySelector('.math-building-info');
+    if (oldInfo) oldInfo.remove();
+
     currentTask = generateTask(settings);
 
     const taskContainer = document.createElement('div');
@@ -425,15 +556,16 @@ function renderTask() {
       // Check if we can use the overlay config (only if floors match exactly 9, which means target 8)
       // Or if targetNumber is 8 or 9 we should ideally use building_8... wait, if target 9, we need 10 floors. building_8.png has 9.
       // The user wants conditional fallback:
-      const canUseOverlay = totalTaskFloors <= OVERLAY_CONFIG_8.floors.length;
+      const currentOverlayConfig = BUILDINGS_OVERLAYS[currentTask.targetNumber];
+      const canUseOverlay = !!currentOverlayConfig;
 
-      if (canUseOverlay && (currentTask.targetNumber === 8 || currentTask.targetNumber === 9)) {
+      if (canUseOverlay) {
         // OVERLAY ARCHITECTURE
         const houseWrapper = document.createElement('div');
         houseWrapper.className = 'math-house-overlay';
 
         const houseImage = document.createElement('img');
-        houseImage.src = OVERLAY_CONFIG_8.image;
+        houseImage.src = currentOverlayConfig.image;
         houseImage.className = 'math-house-image';
 
         const overlayContainer = document.createElement('div');
@@ -444,25 +576,26 @@ function renderTask() {
         const targetElement = document.createElement('div');
         targetElement.className = 'math-house-target-overlay';
         targetElement.textContent = currentTask.targetNumber;
-        targetElement.style.left = `${OVERLAY_CONFIG_8.target.x}%`;
-        targetElement.style.top = `${OVERLAY_CONFIG_8.target.y}%`;
+        targetElement.style.left = `${currentOverlayConfig.target.x}%`;
+        targetElement.style.top = `${currentOverlayConfig.target.y}%`;
         overlayContainer.appendChild(targetElement);
 
         currentTask.house.forEach((floor, index) => {
-          const floorConfig = OVERLAY_CONFIG_8.floors[index];
+          const floorConfig = currentOverlayConfig.floors[index];
+          if (!floorConfig) return; // fallback if somehow floors mismatch
 
           // Left room
           const leftInput = createInput(floor.left, floor.expectedLeft);
           leftInput.classList.add('math-input-overlay');
-          leftInput.style.left = `${floorConfig.leftX}%`;
-          leftInput.style.top = `${floorConfig.y}%`;
+          leftInput.style.left = `${floorConfig.left.x}%`;
+          leftInput.style.top = `${floorConfig.left.y}%`;
           overlayContainer.appendChild(leftInput);
 
           // Right room
           const rightInput = createInput(floor.right, floor.expectedRight);
           rightInput.classList.add('math-input-overlay');
-          rightInput.style.left = `${floorConfig.rightX}%`;
-          rightInput.style.top = `${floorConfig.y}%`;
+          rightInput.style.left = `${floorConfig.right.x}%`;
+          rightInput.style.top = `${floorConfig.right.y}%`;
           overlayContainer.appendChild(rightInput);
         });
 
@@ -639,11 +772,15 @@ function createInput(value, expected) {
     const isAllCorrect = allInputs.every(i => i.classList.contains('correct'));
 
     if (isAllCorrect) {
+      if (typeof showBuildingInfo === 'function' && currentTask && currentTask.targetNumber) {
+          showBuildingInfo(currentTask.targetNumber);
+      }
+
       if (!isInfinite && currentTaskIndex + 1 >= taskCount) {
         // Last task finished, small delay then results
         setTimeout(() => {
           finishGame();
-        }, 1000);
+        }, 4000); // Wait longer so the building info can be read
       } else {
         // Show Next button
         const nextBtnCont = document.getElementById('nextBtnContainer');
@@ -676,4 +813,56 @@ function createInput(value, expected) {
   return function cleanup() {
     container.innerHTML = '';
   };
+}
+
+function showBuildingInfo(number) {
+    const data = BUILDINGS_DATA[number];
+    if (!data) return;
+
+    // Check if it already exists
+    if (document.querySelector('.math-building-info')) return;
+
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'math-building-info math-animate-pop';
+    infoDiv.innerHTML = `
+        <div class="math-building-flag">${data.flag}</div>
+        <div class="math-building-details">
+            <h3 class="math-building-name">${data.name}</h3>
+            <p class="math-building-location">${data.country}, ${data.city}</p>
+        </div>
+    `;
+
+    // Append it to the main area, maybe centered as an absolute overlay
+    const gameWrapper = document.querySelector('.math-game-wrapper');
+    infoDiv.style.position = 'absolute';
+    infoDiv.style.top = '50%';
+    infoDiv.style.left = '50%';
+    infoDiv.style.transform = 'translate(-50%, -50%)';
+    infoDiv.style.zIndex = '1000';
+    infoDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+    infoDiv.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+    infoDiv.style.padding = '20px 40px';
+    infoDiv.style.border = '4px solid #ff9800';
+    infoDiv.style.borderRadius = '20px';
+
+    // Animate pop override
+    infoDiv.style.animation = 'math-pop-center 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both';
+
+    // Add custom keyframes
+    const styleBlock = document.createElement('style');
+    styleBlock.textContent = `
+      @keyframes math-pop-center {
+        0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(styleBlock);
+
+    if (gameWrapper) {
+        gameWrapper.style.position = 'relative';
+        gameWrapper.appendChild(infoDiv);
+    } else {
+        document.body.appendChild(infoDiv);
+    }
+
 }

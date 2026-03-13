@@ -20,7 +20,7 @@ function shuffleArray(array) {
  */
 export function getActualTargetNumber(targetNumber) {
   if (targetNumber === "mix") {
-    return Math.floor(Math.random() * 9) + 2; // 2 to 10
+    return Math.floor(Math.random() * 10) + 1; // 1 to 10
   }
   return parseInt(targetNumber, 10) || 5;
 }

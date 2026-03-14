@@ -177,7 +177,7 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   leftColumn.className = 'math-left-column';
 
   const progressText = document.createElement('div');
-  progressText.style.cssText = 'font-weight: 700; font-size: 1.2rem; color: #7d733a; margin-top: 15px; margin-bottom: 20px; align-self: flex-start;';
+  progressText.style.cssText = 'font-weight: 700; font-size: 1.2rem; color: #7d733a; margin-top: 15px; margin-bottom: 20px; text-align: center; width: 100%;';
 
   // Custom Numpad
   const numpadPanel = document.createElement('div');
@@ -209,7 +209,7 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
   numpadPanel.appendChild(numpadGrid);
 
   const exitBtnContainer = document.createElement('div');
-  exitBtnContainer.style.cssText = 'display: flex; justify-content: flex-end; width: 100%; margin-top: 20px;';
+  exitBtnContainer.style.cssText = 'display: flex; justify-content: center; width: 100%; margin-top: 20px;';
 
   const exitBtn = document.createElement('button');
   exitBtn.className = 'btn btn--secondary';
@@ -236,6 +236,61 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
 
   const style = document.createElement('style');
   style.textContent = `
+
+    .math-house-overlay-container {
+      position: relative;
+      display: inline-block;
+    }
+    .math-house-image {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    .math-house-target-overlay {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    .math-input-overlay {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #111;
+      background-color: rgba(255, 255, 255, 0.6) !important;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      border-radius: 4px !important;
+      border: 2px solid transparent !important;
+      outline: none;
+      caret-color: transparent;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.2s;
+    }
+    .math-input-overlay:focus, .math-input-overlay.active {
+      border-color: #ff8c00 !important;
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.3);
+      z-index: 10;
+    }
+    .math-input-overlay.correct {
+      border-color: #10b981 !important;
+      color: #065f46;
+      background-color: rgba(236, 253, 245, 0.8) !important;
+    }
+    .math-input-overlay.error {
+      border-color: #ef4444 !important;
+      color: #991b1b;
+      background-color: rgba(254, 242, 242, 0.8) !important;
+      animation: shake 0.4s;
+    }
+
     .math-trainer-container {
       width: 100%;
       height: 100%;
@@ -265,7 +320,11 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
     .math-left-column {
       flex: 1;
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
+
+      order: 2;
     }
     .math-content-area {
       width: 100%;
@@ -278,6 +337,8 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
       border-radius: 20px;
       padding: 30px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+
+      order: 1;
     }
     .math-numpad-panel {
       width: 320px;
@@ -587,15 +648,18 @@ export function mountTrainerUI(container, { t, state, onExitTrainer }) {
           // Left room
           const leftInput = createInput(floor.left, floor.expectedLeft);
           leftInput.classList.add('math-input-overlay');
-          leftInput.style.left = `${floorConfig.left.x}%`;
+          const centerX = (floorConfig.left.x + floorConfig.right.x) / 2;
+          leftInput.style.left = `calc(${centerX}% - 2.5px)`;
           leftInput.style.top = `${floorConfig.left.y}%`;
+          leftInput.style.transform = 'translate(-100%, -50%)';
           overlayContainer.appendChild(leftInput);
 
           // Right room
           const rightInput = createInput(floor.right, floor.expectedRight);
           rightInput.classList.add('math-input-overlay');
-          rightInput.style.left = `${floorConfig.right.x}%`;
+          rightInput.style.left = `calc(${centerX}% + 2.5px)`;
           rightInput.style.top = `${floorConfig.right.y}%`;
+          rightInput.style.transform = 'translate(0%, -50%)';
           overlayContainer.appendChild(rightInput);
         });
 
@@ -825,7 +889,7 @@ function showBuildingInfo(number) {
     const infoDiv = document.createElement('div');
     infoDiv.className = 'math-building-info math-animate-pop';
     infoDiv.innerHTML = `
-        <div class="math-building-flag">${data.flag}</div>
+
         <div class="math-building-details">
             <h3 class="math-building-name">${data.name}</h3>
             <p class="math-building-location">${data.country}, ${data.city}</p>
@@ -835,9 +899,9 @@ function showBuildingInfo(number) {
     // Append it to the main area, maybe centered as an absolute overlay
     const gameWrapper = document.querySelector('.math-game-wrapper');
     infoDiv.style.position = 'absolute';
-    infoDiv.style.top = '50%';
-    infoDiv.style.left = '50%';
-    infoDiv.style.transform = 'translate(-50%, -50%)';
+    infoDiv.style.bottom = '30px';
+    infoDiv.style.right = '30px';
+    infoDiv.style.maxWidth = '300px';
     infoDiv.style.zIndex = '1000';
     infoDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
     infoDiv.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
@@ -852,8 +916,8 @@ function showBuildingInfo(number) {
     const styleBlock = document.createElement('style');
     styleBlock.textContent = `
       @keyframes math-pop-center {
-        0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
-        100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+        100% { transform: translate(0, 0) scale(1); opacity: 1; }
       }
     `;
     document.head.appendChild(styleBlock);
